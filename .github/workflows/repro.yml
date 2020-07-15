@@ -1,0 +1,68 @@
+name: repro
+
+on:
+  push:
+
+jobs:
+  build:
+    name: ${{ matrix.os }}, Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.8]
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }} with Miniconda
+      uses: goanpeca/setup-miniconda@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+        channels: conda-forge
+
+    - name: Install dependencies
+      shell: bash -l {0}
+      run: |
+        which python
+        python --version
+        conda install pandoc nbconvert
+
+    - name: Install TinyTex
+      uses: r-lib/actions/setup-tinytex@v1
+
+    - name: Install LaTeX dependencies
+      if: matrix.os != 'windows-latest'
+      shell: bash -l {0}
+      run: |
+        bash .github/install_latex_deps.sh
+    - name: Install LaTeX dependencies
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        pwsh install_latex_deps.sh
+
+    - name: To LaTeX
+      shell: bash -l {0}
+      run: |
+        jupyter nbconvert --to latex the_notebook.ipynb
+        ls -al .
+
+    - name: Upload LaTeX
+      uses: actions/upload-artifact@v2
+      with:
+        name: the_notebook.tex
+        path: the_notebook.tex
+
+    - name: To PDF
+      shell: bash -l {0}
+      run: |
+        jupyter nbconvert --to pdf the_notebook.ipynb
+        ls -al .
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v2
+      with:
+        name: the_notebook.pdf
+        path: the_notebook.pdf
