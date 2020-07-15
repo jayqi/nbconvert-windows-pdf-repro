@@ -2,6 +2,12 @@
 
 This repo attempts to provide a minimal reproducible example for the bug reported in [jupyter/nbconvert Issue #974](https://github.com/jupyter/nbconvert/issues/974) by using GitHub Actions.
 
+## Notes about environment setup
+
+- `nbconvert` and `pandoc` are installed using miniconda
+- the TeX distribution comes from [TinyTeX](https://yihui.org/tinytex/), a popular cross-platform TeX distribution used by the R community
+- additional dependencies required by `nbconvert` are manually installed with `tlmgr` using the `install_latex_deps.sh` and `install_latex_deps.ps1` scripts
+
 ## Results
 
 [Build #5](https://github.com/jayqi/nbconvert-windows-pdf-repro/actions/runs/169400753) demonstrates an example where `ubuntu-latest` and `macos-latest` pass as expected, but `windows-latest` fails. You can see the failed build log here: [link](https://github.com/jayqi/nbconvert-windows-pdf-repro/runs/871565528?check_suite_focus=true#step:10:14)
