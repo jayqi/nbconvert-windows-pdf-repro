@@ -8,6 +8,7 @@ jobs:
     name: ${{ matrix.os }}, Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: [3.8]
@@ -32,12 +33,12 @@ jobs:
     - name: Install TinyTex
       uses: r-lib/actions/setup-tinytex@v1
 
-    - name: Install LaTeX dependencies
+    - name: Install LaTeX dependencies (non-Windows)
       if: matrix.os != 'windows-latest'
       shell: bash -l {0}
       run: |
-        bash .github/install_latex_deps.sh
-    - name: Install LaTeX dependencies
+        bash install_latex_deps.sh
+    - name: Install LaTeX dependencies (Windows)
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
