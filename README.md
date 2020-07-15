@@ -8,6 +8,14 @@ This repo attempts to provide a minimal reproducible example for the bug reporte
 - the TeX distribution comes from [TinyTeX](https://yihui.org/tinytex/), a popular cross-platform TeX distribution used by the R community
 - additional dependencies required by `nbconvert` are manually installed with `tlmgr` using the `install_latex_deps.sh` and `install_latex_deps.ps1` scripts
 
+Environment for failed build (from logs):
+
+- Microsoft Windows Server 2019
+- Python 3.8.3
+- nbconvert 5.6.1
+- pandoc 2.10
+- TeX Live 2020 via TinyTeX
+
 ## Results
 
 [Build #5](https://github.com/jayqi/nbconvert-windows-pdf-repro/actions/runs/169400753) demonstrates an example where `ubuntu-latest` and `macos-latest` pass as expected, but `windows-latest` fails. You can see the failed build log here: [link](https://github.com/jayqi/nbconvert-windows-pdf-repro/runs/871565528?check_suite_focus=true#step:10:14)
@@ -45,6 +53,7 @@ Artifacts from [build #5](https://github.com/jayqi/nbconvert-windows-pdf-repro/a
 Note that the `artifacts/windows-latest-the_notebook-latex/the_notebook.tex` file from Windows has Windows-style CRLF line endings. I converted it to Unix-style LF line endings (`artifacts/windows-latest-the_notebook-latex/the_notebook_lf.tex`), and this appears to produce identical files to the Ubuntu and MacOS runs.
 
 ```
+$ find artifacts -type f -exec md5sum {} \; | sort
 03a09f34782ea7a18044f4a846eb753a  artifacts/macos-latest-the_notebook-latex/the_notebook_files/the_notebook_1_1.png
 03a09f34782ea7a18044f4a846eb753a  artifacts/ubuntu-latest-the_notebook-latex/the_notebook_files/the_notebook_1_1.png
 03a09f34782ea7a18044f4a846eb753a  artifacts/windows-latest-the_notebook-latex/the_notebook_files/the_notebook_1_1.png

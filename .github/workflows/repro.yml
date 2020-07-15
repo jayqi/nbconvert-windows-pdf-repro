@@ -3,8 +3,8 @@ name: repro
 on:
   push:
     paths-ignore:
-      README.md
-      artifacts
+      - 'README.md'
+      - 'artifacts/**'
 
 jobs:
   build:
