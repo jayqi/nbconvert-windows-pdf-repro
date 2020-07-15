@@ -66,6 +66,7 @@ jobs:
     - name: To PDF
       shell: bash -l {0}
       run: |
+        echo $COMSPEC
         jupyter nbconvert --to pdf the_notebook.ipynb
         ls -al .
 
