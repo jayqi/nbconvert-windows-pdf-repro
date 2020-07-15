@@ -2,6 +2,8 @@ name: repro
 
 on:
   push:
+    paths-ignore:
+      README.md
 
 jobs:
   build:
@@ -53,8 +55,11 @@ jobs:
     - name: Upload LaTeX
       uses: actions/upload-artifact@v2
       with:
-        name: the_notebook.tex
-        path: the_notebook.tex
+        name: ${{ matrix.os }}-the_notebook.tex
+        path: |
+          the_notebook.tex
+          the_notebook_files
+
 
     - name: To PDF
       shell: bash -l {0}
@@ -65,5 +70,5 @@ jobs:
     - name: Upload PDF
       uses: actions/upload-artifact@v2
       with:
-        name: the_notebook.pdf
+        name: ${{ matrix.os }}-the_notebook.pdf
         path: the_notebook.pdf
