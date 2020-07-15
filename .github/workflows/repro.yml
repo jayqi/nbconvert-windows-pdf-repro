@@ -31,7 +31,8 @@ jobs:
       run: |
         which python
         python --version
-        conda install pandoc nbconvert
+        pip install git+https://github.com/jayqi/nbconvert.git@fix-windows-pdf
+        conda install pandoc
 
     - name: Install TinyTex
       uses: r-lib/actions/setup-tinytex@v1
